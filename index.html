@@ -4,25 +4,24 @@
     <meta charset="utf-8">
     <title>Complete-Me</title>
     <link rel="stylesheet" href="node_modules/normalize.css/normalize.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Hind:300,400" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <h1>COMPLETE-ME</h1>
+    <h1>Trie Climbing</h1>
 
     <main>
       <input id="word-input" type="text" placeholder="Search Here">
-      <button class="submit-btn" id="search-btn" type="submit">Search</button>
+      <!-- <button class="submit-btn" id="search-btn" type="submit">Suggest</button> -->
     </main>
 
     <div class="word-suggest-box" id="word-suggest-box">
-      <ul id="suggest-list">
-        <li>1 <button class="remove-btn">Remove</button></li>
-        <li>2 <button class="remove-btn">Remove</button></li>
-        <li>3 <button class="remove-btn">Remove</button></li>
-        <li>4 <button class="remove-btn">Remove</button></li>
-      </ul>
+      <ul id="suggest-list"></ul>
     </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <script src="./main.bundle.js" charset="utf-8"></script>
 
   </body>
 </html>
