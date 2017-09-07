@@ -1,66 +1,82 @@
-import Node from './Node.js'
+import Node from './Node'
 
 export default class Trie {
-  constructor() {
+  constructor(node) {
     this.root = null
+    this.wordCount = 0
   }
 
   insert(word) {
-    this.root = new Node(word)
+    let node = new Node()
+
+    if (!this.root) {
+      this.root = node
+    }
+
+    let letters = [...word.toLowerCase()]
+    let currentNode = this.root
+
+    letters.forEach((letter, i) => {
+      if (!currentNode.children[letter]) {
+        currentNode.children[letter] = new Node(letter)
+      }
+      currentNode = currentNode.children[letter]
+    })
+
+    if (currentNode.isWord !== true) {
+      currentNode.isWord = true
+      this.wordCount++
+    }
+    console.log(JSON.stringify(this.root, null, 4))
   }
 
   count() {
-
+    return this.wordCount
   }
 
-  suggest() {
+  suggest(word) {
+    let wordAsArray = [...word];
+    let currNode = this.root;
+    let suggestionsArray = [];
 
+    for (let i = 0; i < wordAsArray.length; i++) {
+      currNode = currNode.children[wordAsArray[i]]
+      //console.log('CURR NODE:', currNode);
+    }
+
+    // currNode now refers to the last leter in our word
+    const traverseTheTrie = (word, currNode) => {
+      let keys = Object.keys(currNode.children);
+      for (let k = 0; k < keys.length; k++) {
+        // console.log('CURRENT NODE:', currNode, 'KEYS:', keys);
+        const child = currNode.children[keys[k]];
+        let newString = word + child.letter;
+        if (child.isWord) {
+          suggestionsArray.push(newString);
+        }
+        traverseTheTrie(newString, child);
+      }
+    };
+
+    if (currNode && currNode.isWord) {
+      suggestionsArray.push(word)
+    }
+
+    if (currNode) {
+      traverseTheTrie(word, currNode);
+    }
+
+    //console.log('suggestionsArray:', suggestionsArray);
+    return suggestionsArray;
   }
 
   select() {
 
   }
 
-  
+  populate(dictionary) {
+    dictionary.forEach(word => {
+      this.insert(word);
+    })
+  }
 }
-
-
-
-// export default class Trie {
-//   constructor() {
-//     this.root = new Node('');
-//   }
-//
-//   insert (word) {
-//     console.log(this.root);
-//     let wordAsArray = [...word];
-//
-//     let firstLetter = wordAsArray[0];
-//
-//     // check if root node has the starting letter of our word
-//     if (this.root.children[firstLetter]) {
-//       console.log('root has child:', firstLetter);
-//     } else {
-//       console.log('root does NOT have child:', firstLetter);
-//       this.root.children[firstLetter] = new Node(firstLetter);
-//
-//       let currNode = this.root.children[firstLetter];
-//
-//       // console.log('wordAsArray length:', wordAsArray.length);
-//
-//       for (let i = 1; i < wordAsArray.length; i++) {
-//         console.log('currNode', currNode);
-//         currNode.children[wordAsArray[i]] = new Node(wordAsArray[i])
-//         currNode = currNode.children[wordAsArray[i]];
-//       }
-//     }
-//
-//     // console.log('ROOT:', this.root);
-//
-//     console.log('ROOT:', util.inspect(this.root, {showHidden: false, depth: null}))
-//
-//     //let newNode = new Node(wordAsArray[0]);
-//     //this.root = newNode;
-//
-//   }
-// }
