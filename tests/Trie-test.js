@@ -1,9 +1,9 @@
 import { expect } from 'chai';
-import Trie from '../scripts/Trie.js';
-import Node from '../scripts/Node.js';
-const text = '/usr/share/dict/words';
-const fs = require('fs');
-
+import Trie from '../scripts/Trie'
+import Node from '../scripts/Node'
+const text = "/usr/share/dict/words"
+const fs = require('fs')
+// const dictionary = fs.readFileSync(text).toString().trim().split('\n')
 
 describe('Trie functionality', () => {
 
@@ -24,7 +24,7 @@ describe('Trie functionality', () => {
       expect(completeMe.root).to.be.instanceOf(Node)
     })
 
-    it.skip('should be able to insert a word and root should have children', () => {
+    it('should be able to insert a word and root should have children', () => {
       completeMe.insert('apple');
 
       expect(completeMe.root.children.a.letter).to.be.equal('a')
