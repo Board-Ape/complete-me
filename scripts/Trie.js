@@ -17,14 +17,14 @@ export default class Trie {
     let letters = [...word.toLowerCase()]
     let currentNode = this.root
 
-    letters.forEach((letter, i) => {
+    letters.forEach((letter) => {
       if (!currentNode.children[letter]) {
         currentNode.children[letter] = new Node(letter)
       }
       currentNode = currentNode.children[letter]
     })
 
-    if (currentNode.isWord !== true) {
+    if (currentNode.isWord === false) {
       currentNode.isWord = true
       this.wordCount++
     }
@@ -32,32 +32,6 @@ export default class Trie {
 
   count() {
     return this.wordCount
-  }
-
-  select(word) {
-    let wordObj = {
-      word: word,
-      freq: 1
-    }
-
-    let foundWord = false
-
-    if (this.wordFreq.length === 0) {
-      this.wordFreq.push(wordObj)
-      foundWord = true
-    } else if (this.wordFreq.length > 0) {
-      this.wordFreq.forEach((obj) => {
-        if (word === obj.word) {
-          foundWord = true
-          obj.freq += 1
-        }
-      })
-    }
-
-    if (foundWord === false && this.wordFreq.length > 0) {
-      this.wordFreq.push(wordObj)
-    }
-
   }
 
   suggest(word) {
@@ -112,6 +86,31 @@ export default class Trie {
     return suggestionsArray;
   }
 
+  select(word) {
+    let wordObj = {
+      word: word,
+      freq: 1
+    }
+
+    let foundWord = false
+
+    if (this.wordFreq.length === 0) {
+      this.wordFreq.push(wordObj)
+      foundWord = true
+    } else if (this.wordFreq.length > 0) {
+      this.wordFreq.forEach((obj) => {
+        if (word === obj.word) {
+          foundWord = true
+          obj.freq += 1
+        }
+      })
+    }
+
+    if (foundWord === false && this.wordFreq.length > 0) {
+      this.wordFreq.push(wordObj)
+    }
+
+  }
 
   populate(dictionary) {
     dictionary.forEach(word => {
